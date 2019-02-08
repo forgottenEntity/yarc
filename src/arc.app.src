@@ -1,0 +1,21 @@
+%%%-------------------------------------------------------------------
+%%% @author ForgottenEntity
+%%% @doc
+%%%
+%%% @end
+%%% Created : 29. Jan 2019 00:25
+%%%-------------------------------------------------------------------
+{application, arc, [
+  {description, "ARC Application"},
+  {vsn, "0.1.0"},
+  {registered, []},
+  {applications, [
+    kernel,
+    stdlib,
+    arc_riak,
+    arc_schema,
+    arc_riak_index
+  ]},
+  {mod, {arc, []}},
+  {env, []}
+]}.
