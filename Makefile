@@ -19,3 +19,6 @@ clean:
 dialyze:
 	@$(REBAR) dialyzer
 
+shell:
+	@$(REBAR) shell
+

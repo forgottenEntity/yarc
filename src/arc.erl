@@ -21,6 +21,8 @@ stop(_Application) ->
   ok.
 
 start(_Application, _Type) ->
-  ok.
+  Pid = supervisor:start_link({local, riak_pool_supervisor}, arc_riak_connection_pool, []),
+  io:format("~p~n", [Pid]),
+  Pid.
 
 

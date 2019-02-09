@@ -12,10 +12,22 @@
   {applications, [
     kernel,
     stdlib,
-    arc_riak,
-    arc_schema,
-    arc_riak_index
+    arc_riak
   ]},
   {mod, {arc, []}},
-  {env, []}
+  {env,
+    [
+      {arc_riak,
+        [
+            [
+              {riak_pool_name, riak_pool},
+              {riak_pb_ip, "127.0.0.1"},
+              {riak_pb_port, 8087},
+              {riak_pb_options, [{auto_reconnect, true}, {keepalive, true}]},
+              {riak_pool_base_size, 400},
+              {riak_pool_max_growth, 400}
+            ]
+        ]
+      }
+    ]}
 ]}.
