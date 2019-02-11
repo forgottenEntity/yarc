@@ -5,16 +5,18 @@
 %%% @end
 %%% Created : 29. Jan 2019 00:25
 %%%-------------------------------------------------------------------
-{application, arc, [
+{application, yarc, [
   {description, "ARC Application"},
   {vsn, "0.1.0"},
   {registered, []},
   {applications, [
     kernel,
     stdlib,
-    arc_riak
+    arc_riak,
+    cowboy,
+    lager
   ]},
-  {mod, {arc, []}},
+  {mod, {yarc, []}},
   {env,
     [
       {arc_riak,

@@ -1,13 +1,12 @@
 %%%-------------------------------------------------------------------
-%%% @author chris
-%%% @copyright (C) 2019, <COMPANY>
+%%% @author forgottenEntity
 %%% @doc
 %%%
 %%% @end
 %%% Created : 07. Feb 2019 20:16
 %%%-------------------------------------------------------------------
--module(arc).
--author("chris").
+-module(yarc).
+-author("forgottenEntity").
 
 %% API
 -behaviour(application).
