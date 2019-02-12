@@ -16,7 +16,8 @@
     yarc_schema,
     yarc_index,
     cowboy,
-    lager
+    lager,
+    jsx
   ]},
   {mod, {yarc, []}},
   {env,
