@@ -12,7 +12,8 @@
   {applications, [
     kernel,
     stdlib,
-    arc_riak,
+    yarc_riak,
+    yarc_schema,
     cowboy,
     lager
   ]},
@@ -22,7 +23,7 @@
       {arc_riak,
         [
             [
-              {riak_pool_name, riak_pool},
+              {riak_pool_name, yarc_riak_pool},
               {riak_pb_ip, "127.0.0.1"},
               {riak_pb_port, 8087},
               {riak_pb_options, [{auto_reconnect, true}, {keepalive, true}]},
