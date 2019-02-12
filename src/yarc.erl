@@ -19,8 +19,10 @@
 
 %% API
 
--export([get_item/2,
-         put_item/3,
+-export([get_item_json/2,
+         put_item_json/3,
+         get_item_map/2,
+         put_item_map/3,
          delete_item/2
 ]).
 
@@ -45,20 +47,15 @@ start(_Application, _Type) ->
 %% API functions
 %%====================================================================
 
-get_item(Store, Key) ->
-  case get_schema(Store) of
-    Definition when is_binary(Definition) ->
-      case get_object(Store, Key) of
-        Object when is_binary(Object) ->
-          jsx:encode(process_object(Object, Definition));
-        Error ->
-          Error
-      end;
+get_item_json(Store, Key) ->
+  case get_item_map(Store, Key) of
+    Definition when is_map(Definition) ->
+      jsx:encode(Definition);
     AnythingElse ->
       AnythingElse
   end.
 
-put_item(Store, Key, Object) ->
+put_item_json(Store, Key, Object) ->
   case get_schema(Store) of
     Definition when is_binary(Definition) ->
       FinalObjectMap = process_object(Object, Definition),
@@ -66,6 +63,31 @@ put_item(Store, Key, Object) ->
     AnythingElse ->
       AnythingElse
   end.
+
+
+get_item_map(Store, Key) ->
+  case get_schema(Store) of
+    Definition when is_binary(Definition) ->
+      case get_object(Store, Key) of
+        Object when is_binary(Object) ->
+          process_object(Object, Definition);
+        Error ->
+          Error
+      end;
+    AnythingElse ->
+      AnythingElse
+  end.
+
+put_item_map(Store, Key, Map) ->
+  case get_schema(Store) of
+    Definition when is_binary(Definition) ->
+      DefinitionMap = jsx:decode(Definition, [return_maps]),
+      FinalObjectMap = process_object_map(Map, DefinitionMap),
+      put_object(Store, Key, jsx:encode(FinalObjectMap));
+    AnythingElse ->
+      AnythingElse
+  end.
+
 
 
 delete_item(Store, Key) ->
@@ -102,13 +124,13 @@ put_object(Store, Key, Object) ->
   ok.
 
 process_object(Object, Definition) ->
-  io:format("Object: ~p~n", [Object]),
-  io:format("Definition: ~p~n", [Definition]),
   ObjectMap = jsx:decode(Object, [return_maps]),
   DefinitionMap = jsx:decode(Definition, [return_maps]),
+  process_object_map(ObjectMap, DefinitionMap).
+
+process_object_map(ObjectMap, DefinitionMap) ->
   FilteredObjectMap = maps:with(maps:keys(DefinitionMap), ObjectMap),
   remove_deleted_fields(FilteredObjectMap, DefinitionMap).
-
 
 remove_deleted_fields(ObjectMap, DefinitionMap) ->
   FilteredDefinition = yarc_schema_definition:filter_deleted_definition_entries(DefinitionMap),
